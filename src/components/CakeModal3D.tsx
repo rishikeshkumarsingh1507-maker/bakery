@@ -40,7 +40,7 @@ export default function CakeModal3D({ product, isOpen, onClose }: CakeModalProps
   const weightMultiplier = selectedWeight === '0.5 Kg' ? 0.6 : selectedWeight === '1.5 Kg' ? 1.45 : selectedWeight === '2 Kg' ? 1.9 : 1.0;
   const calculatedPrice = Math.round(basePrice * weightMultiplier);
 
-  const waOrderLink = `https://wa.me/919870612015?text=${encodeURIComponent(
+  const waOrderLink = `https://wa.me/919521832344?text=${encodeURIComponent(
     `Hi Bakery! I would like to order:\n\n🎂 Cake: ${product.name}\n⚖️ Weight: ${selectedWeight}\n🍰 Style: ${selectedTier}\n💰 Estimated Price: ₹${calculatedPrice.toLocaleString('en-IN')}\n\nPlease confirm availability!`
   )}`;
 

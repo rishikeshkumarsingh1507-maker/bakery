@@ -196,7 +196,7 @@ export default function Navbar() {
 
           <div className="pt-6 border-t border-honey/20 mt-auto">
             <a
-              href="https://wa.me/919870612015?text=Hi%20Bakery!%20I%27d%20like%20to%20place%20an%20order"
+              href="https://wa.me/919521832344?text=Hi%20Bakery!%20I%27d%20like%20to%20place%20an%20order"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-3.5 bg-gradient-to-r from-amber to-honey text-white rounded-full text-sm font-semibold flex items-center justify-center gap-2 shadow-honey"

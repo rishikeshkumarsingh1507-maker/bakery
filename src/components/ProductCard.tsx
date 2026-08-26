@@ -1,6 +1,7 @@
 'use client';
-import { motion } from 'framer-motion';
-import { Box, MessageCircle, Sparkles, ShieldCheck } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Box, MessageCircle, Sparkles, ShieldCheck, ChevronUp, ChevronDown, Check, X, Calendar, PenTool } from 'lucide-react';
 import type { Product } from '@/data/products';
 
 interface ProductCardProps {
@@ -9,8 +10,30 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, index }: ProductCardProps) {
-  const waLink = `https://wa.me/919870612015?text=${encodeURIComponent(
-    `Hi Bakery! I would like to order the *${product.name}* (₹${product.price.toLocaleString('en-IN')}). Please let me know availability!`
+  const [isOrderOpen, setIsOrderOpen] = useState(false);
+  const [selectedWeight, setSelectedWeight] = useState('1 Kg');
+  const [selectedTier, setSelectedTier] = useState('Single Tier');
+  const [nameOnCake, setNameOnCake] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [notes, setNotes] = useState('');
+
+  const basePrice = product.price;
+  const weightMultiplier =
+    selectedWeight === '0.5 Kg' ? 0.6 : selectedWeight === '1.5 Kg' ? 1.45 : selectedWeight === '2 Kg' ? 1.9 : 1.0;
+  const tierExtra = selectedTier.includes('Double') ? 400 : 0;
+  const calculatedPrice = Math.round(basePrice * weightMultiplier + tierExtra);
+
+  const waOrderLink = `https://wa.me/919521832344?text=${encodeURIComponent(
+    `🌸 *New Cake Order — Bakery*\n\n` +
+      `🎂 *Cake:* ${product.name}\n` +
+      `⚖️ *Weight:* ${selectedWeight}\n` +
+      `🍰 *Style:* ${selectedTier}\n` +
+      (nameOnCake ? `✍️ *Custom Inscription/Name:* "${nameOnCake}"\n` : '') +
+      (eventDate ? `📅 *Celebration Date:* ${eventDate}\n` : '') +
+      (notes ? `📝 *Special Notes:* ${notes}\n` : '') +
+      `\n💰 *Total Price:* ₹${calculatedPrice.toLocaleString('en-IN')}\n` +
+      `✦ 100% Eggless Artisan Cake\n\n` +
+      `Please confirm availability & delivery time!`
   )}`;
 
   return (
@@ -19,7 +42,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
-      className="glass-panel rounded-3xl overflow-hidden hover:shadow-glass-hover hover:-translate-y-2.5 transition-all duration-500 flex flex-col justify-between group border border-honey/30 bg-white/75"
+      className="glass-panel rounded-3xl overflow-hidden hover:shadow-glass-hover transition-all duration-500 flex flex-col justify-between group border border-honey/30 bg-white/80"
     >
       <div>
         {/* Clickable Image Container to 3D Link */}
@@ -80,6 +103,127 @@ export default function ProductCard({ product, index }: ProductCardProps) {
         </div>
       </div>
 
+      {/* Inline Order Template Accordion */}
+      <AnimatePresence>
+        {isOrderOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            className="overflow-hidden bg-[#FFFDF7] border-t border-honey/25 px-5 py-5 space-y-4"
+          >
+            <div className="flex items-center justify-between pb-2 border-b border-honey/20">
+              <div className="flex items-center gap-2">
+                <Sparkles size={14} className="text-amber" />
+                <span className="font-fraunces text-sm font-semibold text-espresso">
+                  Customize &amp; Order
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsOrderOpen(false)}
+                className="text-text-muted hover:text-espresso text-xs flex items-center gap-1 font-medium"
+              >
+                <X size={14} />
+                Close
+              </button>
+            </div>
+
+            {/* Weight Options */}
+            <div>
+              <label className="block text-[11px] uppercase tracking-wider text-text-muted font-medium mb-1.5">
+                Select Weight
+              </label>
+              <div className="grid grid-cols-4 gap-1.5">
+                {['0.5 Kg', '1 Kg', '1.5 Kg', '2 Kg'].map((weight) => (
+                  <button
+                    key={weight}
+                    type="button"
+                    onClick={() => setSelectedWeight(weight)}
+                    className={`py-1.5 px-1 text-xs rounded-xl border transition-all ${
+                      selectedWeight === weight
+                        ? 'bg-amber text-white border-amber font-semibold shadow-xs'
+                        : 'bg-white text-espresso border-honey/30 hover:border-amber'
+                    }`}
+                  >
+                    {weight}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Tier Options */}
+            <div>
+              <label className="block text-[11px] uppercase tracking-wider text-text-muted font-medium mb-1.5">
+                Tier Style
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                {['Single Tier', 'Double Tier (+₹400)'].map((tier) => (
+                  <button
+                    key={tier}
+                    type="button"
+                    onClick={() => setSelectedTier(tier)}
+                    className={`py-1.5 px-2 text-xs rounded-xl border text-center transition-all ${
+                      selectedTier === tier
+                        ? 'bg-amber/15 text-espresso border-amber font-semibold'
+                        : 'bg-white text-text-muted border-honey/30 hover:border-amber'
+                    }`}
+                  >
+                    {tier}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Name / Inscription input */}
+            <div>
+              <label className="block text-[11px] uppercase tracking-wider text-text-muted font-medium mb-1 flex items-center gap-1">
+                <PenTool size={12} className="text-amber" />
+                Name on Cake (Optional)
+              </label>
+              <input
+                type="text"
+                value={nameOnCake}
+                onChange={(e) => setNameOnCake(e.target.value)}
+                placeholder="e.g. Happy Birthday Rhea!"
+                className="w-full px-3 py-2 text-xs rounded-xl border border-honey/30 bg-white text-espresso focus:outline-none focus:border-amber focus:ring-1 focus:ring-amber"
+              />
+            </div>
+
+            {/* Event Date */}
+            <div>
+              <label className="block text-[11px] uppercase tracking-wider text-text-muted font-medium mb-1 flex items-center gap-1">
+                <Calendar size={12} className="text-amber" />
+                Celebration Date (Optional)
+              </label>
+              <input
+                type="date"
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+                className="w-full px-3 py-2 text-xs rounded-xl border border-honey/30 bg-white text-espresso focus:outline-none focus:border-amber focus:ring-1 focus:ring-amber"
+              />
+            </div>
+
+            {/* Send WhatsApp CTA */}
+            <div className="pt-2">
+              <a
+                href={waOrderLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3 px-4 bg-gradient-to-r from-amber to-honey-600 hover:from-amber-dark hover:to-amber text-white font-medium text-xs rounded-xl shadow-honey hover:shadow-honey-lg transition-all flex items-center justify-center gap-2 text-center"
+              >
+                <MessageCircle size={16} />
+                Send Order for ₹{calculatedPrice.toLocaleString('en-IN')} on WhatsApp
+              </a>
+              <p className="text-[10px] text-center text-text-muted mt-1.5">
+                Direct WhatsApp booking to +91 95218 32344
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Card Footer: Price & Action Buttons */}
       <div className="p-6 pt-0 border-t border-honey/15 mt-auto flex items-center justify-between gap-3">
         <div>
@@ -101,16 +245,20 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             <Box size={16} />
           </a>
 
-          {/* Direct Order Button */}
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-gradient-to-r from-amber to-honey-600 hover:from-amber-dark hover:to-amber text-white rounded-full text-xs font-semibold shadow-honey hover:shadow-honey-lg hover:-translate-y-0.5 transition-all"
+          {/* Toggle Order Template Button */}
+          <button
+            type="button"
+            onClick={() => setIsOrderOpen(!isOrderOpen)}
+            className={`inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-semibold shadow-honey hover:shadow-honey-lg hover:-translate-y-0.5 transition-all ${
+              isOrderOpen
+                ? 'bg-espresso text-white'
+                : 'bg-gradient-to-r from-amber to-honey-600 hover:from-amber-dark hover:to-amber text-white'
+            }`}
           >
             <MessageCircle size={15} />
-            Order
-          </a>
+            {isOrderOpen ? 'Close' : 'Order'}
+            {isOrderOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+          </button>
         </div>
       </div>
     </motion.div>

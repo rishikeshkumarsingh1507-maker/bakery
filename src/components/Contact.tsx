@@ -15,7 +15,7 @@ export default function Contact() {
 
   const info = [
     { icon: MapPin, label: 'Bakery Atelier', value: 'Tulsi Vihar 2, Rishikesh, Uttarakhand 249302' },
-    { icon: Phone, label: 'Concierge & Direct Call', value: '+91 98706 12015' },
+    { icon: Phone, label: 'Concierge & Direct Call', value: '+91 95218 32344' },
     { icon: Mail, label: 'Direct Inquiries', value: 'hello@bonbonbakery.in' },
     { icon: Clock, label: 'Operating Hours', value: 'Mon - Sun · 9:00 AM – 8:00 PM' },
   ];
@@ -31,7 +31,7 @@ export default function Contact() {
       (form.message ? `📝 *Details / Notes:* ${form.message}\n` : '') +
       `\n✦ Please confirm booking & delivery availability!`;
 
-    window.open(`https://wa.me/919870612015?text=${encodeURIComponent(msg)}`, '_blank');
+    window.open(`https://wa.me/919521832344?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
   return (
@@ -134,7 +134,7 @@ export default function Contact() {
                       required
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      placeholder="+91 98706..."
+                      placeholder="+91 95218..."
                       className="w-full px-4 py-3 rounded-xl border border-honey/30 bg-white text-espresso text-sm focus:outline-none focus:border-amber focus:ring-1 focus:ring-amber"
                     />
                   </div>

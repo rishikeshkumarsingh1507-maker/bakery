@@ -68,7 +68,7 @@ export default function BespokeCustomizer() {
     .filter(Boolean)
     .join(', ');
 
-  const waLink = `https://wa.me/919870612015?text=${encodeURIComponent(
+  const waLink = `https://wa.me/919521832344?text=${encodeURIComponent(
     `✨ *Custom Cake Bespoke Request* — Bakery\n\n` +
       `🎉 *Occasion:* ${occObj.label}\n` +
       `🎂 *Size/Tiers:* ${sizeObj.label} (${sizeObj.guests})\n` +

@@ -20,7 +20,7 @@ export default function WhatsAppFloat() {
 
       {/* WhatsApp Floating Icon */}
       <a
-        href="https://wa.me/919870612015?text=Hi%20Bakery!%20I%27d%20like%20to%20inquire%20about%20a%20cake"
+        href="https://wa.me/919521832344?text=Hi%20Bakery!%20I%27d%20like%20to%20inquire%20about%20a%20cake"
         target="_blank"
         rel="noopener noreferrer"
         className="w-14 h-14 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full flex items-center justify-center shadow-honey-lg hover:scale-110 transition-all border border-white/30 group"

@@ -50,7 +50,7 @@ export default function Footer() {
               <Facebook size={18} />
             </a>
             <a
-              href="https://wa.me/919870612015"
+              href="https://wa.me/919521832344"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-white/10 hover:bg-honey hover:text-espresso text-white flex items-center justify-center transition-all border border-white/10"
@@ -95,8 +95,8 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-3">
               <Phone size={18} className="text-honey shrink-0" />
-              <a href="tel:+919870612015" className="hover:text-honey transition-colors">
-                +91 98706 12015
+              <a href="tel:+919521832344" className="hover:text-honey transition-colors">
+                +91 95218 32344
               </a>
             </li>
             <li className="flex items-center gap-3">
