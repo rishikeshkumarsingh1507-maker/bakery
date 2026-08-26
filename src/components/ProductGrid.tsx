@@ -1,25 +1,17 @@
 'use client';
 import { useState } from 'react';
-import { categories, products, Product } from '@/data/products';
+import { categories, products } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
-import CakeModal3D from '@/components/CakeModal3D';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Filter, Grid, ArrowRight } from 'lucide-react';
 
 export default function ProductGrid() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [selectedProductFor3D, setSelectedProductFor3D] = useState<Product | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredProducts = activeCategory === 'all'
     ? products
     : products.filter((p) => p.category === activeCategory);
-
-  const handleOpen3D = (product: Product) => {
-    setSelectedProductFor3D(product);
-    setIsModalOpen(true);
-  };
 
   return (
     <section id="products" className="py-20 md:py-28 px-4 md:px-16 relative">
@@ -92,7 +84,6 @@ export default function ProductGrid() {
                 key={p.id}
                 product={p}
                 index={i}
-                onOpen3D={handleOpen3D}
               />
             ))}
           </AnimatePresence>
@@ -132,13 +123,6 @@ export default function ProductGrid() {
           </div>
         </div>
       </div>
-
-      {/* 3D & AR Modal */}
-      <CakeModal3D
-        product={selectedProductFor3D}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </section>
   );
 }

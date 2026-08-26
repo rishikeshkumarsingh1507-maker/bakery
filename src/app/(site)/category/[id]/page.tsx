@@ -1,8 +1,6 @@
 'use client';
-import { useState } from 'react';
-import { products, categories, Product } from '@/data/products';
+import { products, categories } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
-import CakeModal3D from '@/components/CakeModal3D';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { notFound } from 'next/navigation';
@@ -13,17 +11,9 @@ export default function CategoryPage({ params }: { params: { id: string } }) {
   const category = categories.find((c) => c.id === id);
   const catProducts = products.filter((p) => p.category === id);
 
-  const [selectedProductFor3D, setSelectedProductFor3D] = useState<Product | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   if (!category || catProducts.length === 0) {
     notFound();
   }
-
-  const handleOpen3D = (product: Product) => {
-    setSelectedProductFor3D(product);
-    setIsModalOpen(true);
-  };
 
   return (
     <div className="min-h-screen pt-32 pb-24 px-4 md:px-16 relative z-10">
@@ -67,7 +57,6 @@ export default function CategoryPage({ params }: { params: { id: string } }) {
             key={p.id}
             product={p}
             index={i}
-            onOpen3D={handleOpen3D}
           />
         ))}
       </div>
@@ -82,13 +71,6 @@ export default function CategoryPage({ params }: { params: { id: string } }) {
           Back to All Collections
         </Link>
       </div>
-
-      {/* 3D Inspect Modal */}
-      <CakeModal3D
-        product={selectedProductFor3D}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </div>
   );
 }
